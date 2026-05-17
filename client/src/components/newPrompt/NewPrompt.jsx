@@ -92,21 +92,19 @@ function NewPrompt({ data }) {
 
       const client = hasImage ? qwen : deepseek;
       const model = hasImage ? "qwen3.6-plus" : "deepseek-v4-pro";
-      const currentMessage = [
-        {
-          role: "user",
-          content: hasImage
-            ? [
-                { type: "text", text },
-                { type: "image_url", image_url: { url: imageUrl } },
-              ]
-            : text,
-        },
-      ];
+      const currentMessage = {
+        role: "user",
+        content: hasImage
+          ? [
+              { type: "text", text },
+              { type: "image_url", image_url: { url: imageUrl } },
+            ]
+          : text,
+      };
       const messages =
         data.history.length === 1
           ? [currentMessage]
-          : [...data_history, ...currentMessage];
+          : [...data_history, currentMessage];
       console.log(messages);
       setAnswerLoading(true);
       const completion = await client.chat.completions.create({
