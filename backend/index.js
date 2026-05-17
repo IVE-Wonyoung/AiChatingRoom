@@ -10,8 +10,6 @@ import { clerkMiddleware, getAuth, requireAuth } from "@clerk/express";
 
 const port = process.env.PORT || 3000;
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
@@ -150,17 +148,6 @@ app.put("/api/chats/:id", async (req, res) => {
     console.log(err);
     res.status(500).send("Error adding conversation");
   }
-});
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(401).send("Unauthenticated!");
-});
-
-app.use(express.static(path.join(__dirname, "../client", "index.html")));
-
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../client", "index.html"));
 });
 
 app.listen(port, () => {
